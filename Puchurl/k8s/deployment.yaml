@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: puchurl
+spec:
+  replicas: 5                  # desired state: 3 pods
+  selector:
+    matchLabels:
+      app: puchurl             # "my pods are the ones with this label"
+  template:                    # the blueprint for each pod (your old pod.yaml lives here)
+    metadata:
+      labels:
+        app: puchurl           # must match the selector above
+    spec:
+      containers:
+        - name: puchurl
+          image: puchurl:0.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
